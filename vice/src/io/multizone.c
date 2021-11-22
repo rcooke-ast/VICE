@@ -134,10 +134,10 @@ extern void write_tracers_output(MULTIZONE mz) {
 	 * zone numbers.
 	 */
 
-	PROGRESSBAR *pb;
+//	PROGRESSBAR *pb;
 	if (mz.verbose) {
 		printf("Saving star particle data....\n");
-		pb = progressbar_initialize((*mz.mig).tracer_count);
+//		pb = progressbar_initialize((*mz.mig).tracer_count);
 	} else {}
 	unsigned long i;
 	for (i = 0l; i < (*mz.mig).tracer_count; i++) {
@@ -171,12 +171,12 @@ extern void write_tracers_output(MULTIZONE mz) {
 		 */
 		} else {}
 
-		if (mz.verbose) progressbar_update(pb, i + 1ul);
+//		if (mz.verbose) progressbar_update(pb, i + 1ul);
 	}
-	if (mz.verbose) {
-		progressbar_finish(pb);
-		progressbar_free(pb);
-	} else {}
+//	if (mz.verbose) {
+//		progressbar_finish(pb);
+//		progressbar_free(pb);
+//	} else {}
 
 }
 

@@ -20,10 +20,15 @@ vice.yields.sneia.settings['fe'] *= 10**0.1
 from .._globals import END_TIME, MAX_SF_RADIUS, ZONE_WIDTH
 from . import migration
 from . import models
+from . import yields
 from .models.utils import get_bin_number, interpolate
 from .models.gradient import gradient
 import math as m
 import sys
+
+print("Primordial mass fractions:")
+print("3He =", vice.elements.Au.primordial)
+print("4He =", vice.elements.He.primordial)
 
 
 class diskmodel(vice.milkyway):

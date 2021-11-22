@@ -39,15 +39,15 @@ extern void tracers_MDF(MULTIZONE *mz) {
 	 * Allocate memory for the progressbar regardless of verbosity to avoid it
 	 * being used uninitialized as a failsafe.
 	 */
-	PROGRESSBAR *pb = progressbar_initialize((*(*mz).mig).tracer_count);
-	if ((*mz).verbose) printf("Computing distribution functions....\n");
+//	PROGRESSBAR *pb = progressbar_initialize((*(*mz).mig).tracer_count);
+//	if ((*mz).verbose) printf("Computing distribution functions....\n");
 	for (i = 0l; i < (*(*mz).mig).tracer_count; i++) {
 		/* ... then update with each tracer particle ... */
 		update_MDF_from_tracer(mz, *(*(*mz).mig).tracers[i]);
-		if ((*mz).verbose) progressbar_update(pb, i + 1ul);
+//		if ((*mz).verbose) progressbar_update(pb, i + 1ul);
 	}
-	if ((*mz).verbose) progressbar_finish(pb);
-	progressbar_free(pb);
+//	if ((*mz).verbose) progressbar_finish(pb);
+//	progressbar_free(pb);
 	
 	for (i = 0l; i < (*(*mz).mig).n_zones; i++) {
 		/* ... and finally normalize it within each zone */

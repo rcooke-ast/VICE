@@ -65,11 +65,12 @@ class primordial(elemental_settings):
 		for elem in _RECOGNIZED_ELEMENTS_:
 			if elem == "he":
 				value = 0.24721
+			elif elem == "au":
+				value = 0.24721 * (3.0160293 / 4.003) * 1.257E-4
 			else:
 				value = 0.0
 			data[elem] = value
 		super().__init__(data)
-
 
 	def __setitem__(self, key, value):
 		r"""

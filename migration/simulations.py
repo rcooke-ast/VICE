@@ -95,10 +95,13 @@ def main():
 	"""
 	parser = parse()
 	args = parser.parse_args()
-	model_ = model(args)
-	model_.run([_ * model_.dt for _ in range(round(
-		src._globals.END_TIME / model_.dt) + 1)],
-		overwrite = args.force, pickle = False)
+	for ii in range(9,17):
+		name = "1.257{0:c}".format(97+ii)
+		args.name = name
+		model_ = model(args)
+		model_.run([_ * model_.dt for _ in range(round(
+			src._globals.END_TIME / model_.dt) + 1)],
+			overwrite = args.force, pickle = False)
 
 
 if __name__ == "__main__": main()
