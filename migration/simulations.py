@@ -60,6 +60,11 @@ underscores. (Default: \"fe_o\")""",
 		type = float,
 		default = 0.1)
 
+	parser.add_argument("--verbose",
+		help = "Verbose output? (Default: True)",
+		type = bool,
+		default = True)
+
 	return parser
 
 
@@ -95,8 +100,10 @@ def main():
 	"""
 	parser = parse()
 	args = parser.parse_args()
-	for ii in range(9,17):
-		name = "1.257{0:c}".format(97+ii)
+	args.verbose = True
+	for ii in range(0,1):  # 17
+		name = "Scalo86_1.257{0:c}".format(97+ii)
+		print("Currently running model {0:s} {1:d}".format(name, ii))
 		args.name = name
 		model_ = model(args)
 		model_.run([_ * model_.dt for _ in range(round(

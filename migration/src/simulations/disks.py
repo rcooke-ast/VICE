@@ -26,9 +26,37 @@ from .models.gradient import gradient
 import math as m
 import sys
 
+from scipy.interpolate import interp1d
+import numpy as np
+
 print("Primordial mass fractions:")
 print("3He =", vice.elements.Au.primordial)
 print("4He =", vice.elements.He.primordial)
+
+mden = np.sort(np.append(np.array([0.18, 0.42, 0.62, 1.18, 3.50]), np.linspace(0.1, 100.0, 1000000 // 100)))
+dNdM = (mden / 0.5) ** -(1 + 1.63)
+index = np.array([2.50, 1.08, 1.75, 0.01, -2.60])
+masses = np.array([3.50, 1.18, 0.62, 0.42, 0.18])
+for mm, ms in enumerate(masses):
+	idx = np.argmin(np.abs(mden - ms))
+	cns = dNdM[idx]
+	dNdM[mden <= ms] = (mden[mden <= ms] / 0.5) ** -(1 + index[mm])
+	dNdM[mden <= ms] *= cns / dNdM[idx]
+yspl = interp1d(mden, dNdM, kind='cubic', bounds_error=False, fill_value='extrapolate')
+
+
+def scalo_imf(mass):
+	mden = np.sort(np.append(np.array([0.18, 0.42, 0.62, 1.18, 3.50]), np.linspace(0.1, 100.0, 1000000 // 100)))
+	dNdM = (mden / 0.5) ** -(1 + 1.63)
+	index = np.array([2.50, 1.08, 1.75, 0.01, -2.60])
+	masses = np.array([3.50, 1.18, 0.62, 0.42, 0.18])
+	for mm, ms in enumerate(masses):
+		idx = np.argmin(np.abs(mden - ms))
+		cns = dNdM[idx]
+		dNdM[mden <= ms] = (mden[mden <= ms] / 0.5) ** -(1 + index[mm])
+		dNdM[mden <= ms] *= cns / dNdM[idx]
+	yspl = interp1d(mden, dNdM, kind='cubic', bounds_error=False, fill_value='extrapolate')
+	return yspl([mass])[0]
 
 
 class diskmodel(vice.milkyway):
@@ -84,6 +112,7 @@ class diskmodel(vice.milkyway):
 		self.evolution = star_formation_history(spec = spec,
 			zone_width = zone_width)
 		self.mode = "sfr"
+		self.IMF = scalo_imf
 
 
 	def run(self, *args, **kwargs):

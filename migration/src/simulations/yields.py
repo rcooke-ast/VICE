@@ -21,8 +21,10 @@ yld4spl_agb = interpolate.RectBivariateSpline(massval, metval, yld4, kx=1, ky=1)
 # yld4spl_agb = interpolate.RectBivariateSpline(massval, metval, yldpm4.reshape(sh).T, kx=1, ky=1)
 
 # Setup CCSNe yields
-data3 = np.load(yieldsdir + "CL2004_3He_yields_Kroupa.npy")
-data4 = np.load(yieldsdir + "CL2004_4He_yields_Kroupa.npy")
+#data3 = np.load(yieldsdir + "CL2004_3He_yields_Kroupa.npy")
+#data4 = np.load(yieldsdir + "CL2004_4He_yields_Kroupa.npy")
+data3 = np.load(yieldsdir + "CL2004_3He_yields_Scalo86.npy")
+data4 = np.load(yieldsdir + "CL2004_4He_yields_Scalo86.npy")
 yld3spl_ccsne = interpolate.interp1d(data3[:,0], data3[:,1], kind='linear', bounds_error=False, fill_value='extrapolate')
 yld4spl_ccsne = interpolate.interp1d(data4[:,0], data4[:,1], kind='linear', bounds_error=False, fill_value='extrapolate')
 
