@@ -26,37 +26,28 @@ from .models.gradient import gradient
 import math as m
 import sys
 
-from scipy.interpolate import interp1d
-import numpy as np
-
 print("Primordial mass fractions:")
 print("3He =", vice.elements.Au.primordial)
 print("4He =", vice.elements.He.primordial)
 
-mden = np.sort(np.append(np.array([0.18, 0.42, 0.62, 1.18, 3.50]), np.linspace(0.1, 100.0, 1000000 // 100)))
-dNdM = (mden / 0.5) ** -(1 + 1.63)
-index = np.array([2.50, 1.08, 1.75, 0.01, -2.60])
-masses = np.array([3.50, 1.18, 0.62, 0.42, 0.18])
-for mm, ms in enumerate(masses):
-	idx = np.argmin(np.abs(mden - ms))
-	cns = dNdM[idx]
-	dNdM[mden <= ms] = (mden[mden <= ms] / 0.5) ** -(1 + index[mm])
-	dNdM[mden <= ms] *= cns / dNdM[idx]
-yspl = interp1d(mden, dNdM, kind='cubic', bounds_error=False, fill_value='extrapolate')
-
 
 def scalo_imf(mass):
-	mden = np.sort(np.append(np.array([0.18, 0.42, 0.62, 1.18, 3.50]), np.linspace(0.1, 100.0, 1000000 // 100)))
-	dNdM = (mden / 0.5) ** -(1 + 1.63)
-	index = np.array([2.50, 1.08, 1.75, 0.01, -2.60])
-	masses = np.array([3.50, 1.18, 0.62, 0.42, 0.18])
-	for mm, ms in enumerate(masses):
-		idx = np.argmin(np.abs(mden - ms))
-		cns = dNdM[idx]
-		dNdM[mden <= ms] = (mden[mden <= ms] / 0.5) ** -(1 + index[mm])
-		dNdM[mden <= ms] *= cns / dNdM[idx]
-	yspl = interp1d(mden, dNdM, kind='cubic', bounds_error=False, fill_value='extrapolate')
-	return yspl([mass])[0]
+	if (mass >= 0.10) and (mass < 0.18):
+		l1, l2, m1, m2 = 0.43974529, 0.8481813, 0.10, 0.18
+	elif (mass >= 0.18) and (mass < 0.42):
+		l1, l2, m1, m2 = 0.8481813, 0.47652474, 0.18, 0.42
+	elif (mass >= 0.42) and (mass < 0.62):
+		l1, l2, m1, m2 = 0.47652474, 0.01138315, 0.42, 0.62
+	elif (mass >= 0.62) and (mass < 1.18):
+		l1, l2, m1, m2 = 0.01138315, -0.56995672, 0.62, 1.18
+	elif (mass >= 1.18) and (mass < 3.50):
+		l1, l2, m1, m2 = -0.56995672, -2.22260785, 1.18, 3.50
+	else:
+		# mass > 3.50
+		l1, l2, m1, m2 = -2.22260785, -6.30658222, 3.50, 125.0
+	grad = (l2-l1) / m.log10(m2/m1)
+	val = l1 + grad * (m.log10(mass/m1))
+	return m.pow(10.0, val)
 
 
 class diskmodel(vice.milkyway):

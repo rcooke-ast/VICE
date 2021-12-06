@@ -100,7 +100,6 @@ def main():
 	"""
 	parser = parse()
 	args = parser.parse_args()
-	args.verbose = True
 	for ii in range(0,1):  # 17
 		name = "Scalo86_1.257{0:c}".format(97+ii)
 		print("Currently running model {0:s} {1:d}".format(name, ii))
