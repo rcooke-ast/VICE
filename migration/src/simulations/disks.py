@@ -29,6 +29,7 @@ import sys
 print("Primordial mass fractions:")
 print("3He =", vice.elements.Au.primordial)
 print("4He =", vice.elements.He.primordial)
+print("MLR =", vice.mlr.setting)
 
 
 def scalo_imf(mass):
@@ -103,8 +104,10 @@ class diskmodel(vice.milkyway):
 		self.evolution = star_formation_history(spec = spec,
 			zone_width = zone_width)
 		self.mode = "sfr"
-		self.IMF = scalo_imf
+		# for i in range(self.n_zones):
+		# 	self.zones[i].eta *= 3.0
 
+	# self.IMF = scalo_imf
 
 	def run(self, *args, **kwargs):
 		out = super().run(*args, **kwargs)
