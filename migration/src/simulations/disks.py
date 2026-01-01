@@ -51,6 +51,10 @@ def scalo_imf(mass):
 	return m.pow(10.0, val)
 
 
+def no_migrate(zone, tform, time):
+	return zone
+
+
 class diskmodel(vice.milkyway):
 
 	r"""
@@ -101,11 +105,14 @@ class diskmodel(vice.milkyway):
 		self.migration.stars = migration.diskmigration(self.annuli,
 			N = Nstars, mode = migration_mode,
 			filename = "%s_analogdata.out" % (name))
+		# self.migration.stars = migration.diskmigration(self.annuli,
+		# 	N = Nstars, mode = None,
+		# 	filename = "%s_analogdata.out" % (name))
 		self.evolution = star_formation_history(spec = spec,
 			zone_width = zone_width)
 		self.mode = "sfr"
 		# for i in range(self.n_zones):
-		# 	self.zones[i].eta *= 3.0
+		# 	self.zones[i].eta *= 0.0
 
 	# self.IMF = scalo_imf
 

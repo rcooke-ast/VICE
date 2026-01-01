@@ -100,9 +100,9 @@ def main():
 	"""
 	parser = parse()
 	args = parser.parse_args()
-	for ii in range(0,16):
-		name = "1.257{0:c}".format(97+ii)
-#		name = "Outflow2.0_1.257{0:c}".format(97+ii)
+	for ii in range(0,1):
+		name = "1.257_BLAH_{0:c}".format(97+ii)
+		# name = "Outflow0.0_NOMIGRATION_1.257{0:c}".format(97+ii)
 		print("Currently running model {0:s} {1:d}".format(name, ii))
 		args.name = name
 		model_ = model(args)
